@@ -44,5 +44,16 @@ public class PipeType3 extends BasePipe {
         priceMultiplier += 0.16;  // add additional color cost (2 colors -> 16%)
         return super.calculatePrice() * priceMultiplier;
     }
+    
+    public void printInfo() {
+        System.out.println(this.length);
+        System.out.println(this.radius);
+        System.out.println(this.plasticGrade);
+        System.out.println(this.colorPrint);
+        System.out.println(this.innerInsulation);
+        System.out.println(this.outerReinforcement);
+        System.out.println(this.chemicalResistance);
+        System.out.println(calculatePrice());
+    }
 
 }

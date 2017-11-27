@@ -44,6 +44,8 @@ public abstract class BasePipe {
     
     abstract boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement);
     
+    abstract void printInfo();
+    
     protected double calculatePrice() {
         double pipeVolume = metersToInches(this.length) * calculateCrossSectionalArea();
         double pricePerInchCubed = new double[]{0.4, 0.6, 0.75, 0.8, 0.95}[this.plasticGrade - 1];
