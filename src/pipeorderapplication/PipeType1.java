@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class PipeType1 extends BasePipe {
     
     private final int[] acceptedGrades = new int[]{1,2,3};
-    private final int acceptedColorPrints = 0;
+    private final int acceptedColorPrint = 0;
     private final boolean acceptedInnerInsulation = false;
     private final boolean acceptedOuterReinforcement = false;
     
@@ -24,7 +24,7 @@ public class PipeType1 extends BasePipe {
     
     public PipeType1(double length, double radius, int plasticGrade, boolean chemicalResistance) {
         super(length, radius, plasticGrade, chemicalResistance);
-        this.colorPrint = acceptedColorPrints;
+        this.colorPrint = acceptedColorPrint;
         this.innerInsulation = acceptedInnerInsulation;
         this.outerReinforcement = acceptedOuterReinforcement;
     }
@@ -32,7 +32,7 @@ public class PipeType1 extends BasePipe {
     @Override
     public boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement) {
         boolean plasticGradeMatch = Arrays.stream(this.acceptedGrades).anyMatch(i -> i == desiredPlasticGrade);
-        boolean colorPrintMatch = desiredColorPrint == this.acceptedColorPrints;
+        boolean colorPrintMatch = desiredColorPrint == this.acceptedColorPrint;
         boolean innerInsulationMatch = desiredInnerInsulation == this.acceptedInnerInsulation;
         boolean outerReinforcementMatch = desiredOuterReinforcement == this.acceptedOuterReinforcement;
         return plasticGradeMatch && colorPrintMatch && innerInsulationMatch && outerReinforcementMatch;
@@ -44,15 +44,17 @@ public class PipeType1 extends BasePipe {
         return super.calculatePrice() * priceMultiplier;
     }
     
+    @Override
     public void printInfo() {
-        System.out.println(this.length);
-        System.out.println(this.radius);
-        System.out.println(this.plasticGrade);
-        System.out.println(this.colorPrint);
-        System.out.println(this.innerInsulation);
-        System.out.println(this.outerReinforcement);
-        System.out.println(this.chemicalResistance);
-        System.out.println(calculatePrice());
+        System.out.println("PipeType: 1");
+        System.out.format("Length: %1$s\n", this.length);
+        System.out.format("Radius: %1$s\n", this.radius);
+        System.out.format("Plastic Grade: %1$s\n", this.plasticGrade);
+        System.out.format("Color Print: %1$s\n", this.colorPrint);
+        System.out.format("Inner Insulation: %1$s\n", this.innerInsulation);
+        System.out.format("Outer Reinforcement: %1$s\n", this.outerReinforcement);
+        System.out.format("Chemical Resistance: %1$s\n", this.chemicalResistance);
+        System.out.format("Price (£): %1$s\n", calculatePrice());
     }
     
 }
