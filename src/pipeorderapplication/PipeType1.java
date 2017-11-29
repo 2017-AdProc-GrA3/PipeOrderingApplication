@@ -40,7 +40,8 @@ public class PipeType1 extends BasePipe {
     
     @Override
     protected double calculatePrice() {
-        double priceMultiplier = (this.chemicalResistance) ? 1.14 : 1;
+        double priceMultiplier = 1;
+        priceMultiplier += (this.chemicalResistance) ? 0.14 : 0;
         return super.calculatePrice() * priceMultiplier;
     }
     

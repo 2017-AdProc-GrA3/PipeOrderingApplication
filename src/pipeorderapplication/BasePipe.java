@@ -42,9 +42,11 @@ public abstract class BasePipe {
     public double getLength() {return this.length;}
     public double getRadius() {return this.radius;}
     
-    abstract boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement);
-    
     abstract void printInfo();
+    
+    protected boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement) {
+        return true;
+    };
     
     protected double calculatePrice() {
         double pipeVolume = metersToInches(this.length) * calculateCrossSectionalArea();
@@ -53,7 +55,9 @@ public abstract class BasePipe {
     }
     
     private double calculateCrossSectionalArea() {
-        return Math.PI * (Math.pow(this.radius, 2) - (Math.pow(this.radius, 2) / 100 * 90));
+        double outerRadius = this.radius;
+        double innerRadius = outerRadius / 100 * 90;
+        return Math.PI * (Math.pow(outerRadius, 2) - Math.pow(innerRadius, 2));
     }
     
     private double metersToInches(double lengthMeters) {
