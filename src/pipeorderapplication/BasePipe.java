@@ -5,61 +5,61 @@
  */
 package pipeorderapplication;
 
+import java.lang.reflect.Constructor;
+
 /**
  *
  * @author up789464
  */
 public abstract class BasePipe {
     
-    protected int plasticGrade, colorPrint;
+    protected int plasticGrade, gradeUpperBound, gradeLowerBound, colorPrint;
     protected boolean innerInsulation, outerReinforcement, chemicalResistance;
     protected double length, radius;
     
-    public BasePipe() {}
-    
-    public BasePipe(double length, double radius, int plasticGrade, boolean chemicalResistance) {
-        this.length = length;
-        this.radius = radius;
-        this.plasticGrade = plasticGrade;
-        this.chemicalResistance = chemicalResistance;
+    public static <T extends BasePipe> T canCreate(Class<T> pipe, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, double leng, double radi) {
+        T instance = null;
+        try {
+            Constructor<T> con = pipe.getConstructor(int.class, double.class, double.class);
+            instance = con.newInstance(plasticGrade, leng, radi);
+            
+            if (!instance.isCreatable(plasticGrade, colorPrint, innerInsulation, outerReinforcement))
+                instance = null;
+        }
+        catch (Exception e) {
+            return null;
+        }
+        return instance;
     }
     
-    public BasePipe(double length, double radius, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance) {
-        this.length = length;
-        this.radius = radius;
-        this.plasticGrade = plasticGrade;
-        this.colorPrint = colorPrint;
-        this.innerInsulation = innerInsulation;
-        this.outerReinforcement = outerReinforcement;
-        this.chemicalResistance = chemicalResistance;
+    public boolean isCreatable(int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement) {
+        boolean plasticGradeMatch = plasticGrade >= this.gradeLowerBound && plasticGrade <= this.gradeUpperBound;
+        boolean colorPrintMatch = this.colorPrint == colorPrint;
+        boolean innerInsulationMatch = this.innerInsulation == innerInsulation;
+        boolean outerReinforcementMatch = this.outerReinforcement == outerReinforcement;
+        return plasticGradeMatch && colorPrintMatch && innerInsulationMatch && outerReinforcementMatch;
     }
     
-    public int getPlasticGrade() {return plasticGrade;}
-    public int getColorPrint() {return colorPrint;}
-    public boolean getInnerInsulation() {return innerInsulation;}
-    public boolean getOuterReinforcement() {return outerReinforcement;}
-    public boolean getChemicalResistance() {return chemicalResistance;}
-    public double getLength() {return length;}
-    public double getRadius() {return radius;}
-    
-    public Object[] getInfo() {
-        return new Object[] {length, radius, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance};
+    public void printInfo() {
+        System.out.println(this.getClass().getSimpleName());
+        System.out.format("Length: %1$s\n", this.length);
+        System.out.format("Radius: %1$s\n", this.radius);
+        System.out.format("Plastic Grade: %1$s\n", this.plasticGrade);
+        System.out.format("Color Print: %1$s\n", this.colorPrint);
+        System.out.format("Inner Insulation: %1$s\n", this.innerInsulation);
+        System.out.format("Outer Reinforcement: %1$s\n", this.outerReinforcement);
+        System.out.format("Chemical Resistance: %1$s\n", this.chemicalResistance);
+        System.out.format("Price (£): %1$s\n", calculatePrice());
     }
-    
-    abstract void printInfo();
-    
-    protected boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement) {
-        return true;
-    };
     
     protected double calculatePrice() {
-        double pipeVolume = metersToInches(length) * calculateCrossSectionalArea();
+        double pipeVolume = metersToInches(this.length) * calculateCrossSectionalArea();
         double[] pricesPerInch = new double[]{0.4, 0.6, 0.75, 0.8, 0.95};
-        return pipeVolume * pricesPerInch[plasticGrade - 1];
+        return pipeVolume * pricesPerInch[this.plasticGrade - 1];
     }
     
     private double calculateCrossSectionalArea() {
-        double outerRadius = radius;
+        double outerRadius = this.radius;
         double innerRadius = outerRadius / 100 * 90;
         return Math.PI * (Math.pow(outerRadius, 2) - Math.pow(innerRadius, 2));
     }

@@ -12,8 +12,6 @@ import java.util.ArrayList;
  * @author up789464
  */
 public class UIFrameMain extends javax.swing.JFrame {
-
-    private final PipeOrderManager pipeManager = new PipeOrderManager();
     
     /**
      * Creates new form UIFrameMain
@@ -338,14 +336,7 @@ public class UIFrameMain extends javax.swing.JFrame {
 
     private void btnAddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToOrderActionPerformed
         try {
-            if (pipeManager.createPipe(getInputs())) {
-                for (PipeOrder order : pipeManager.getPipeOrders()) {
-                    System.out.println(order.toString());
-                }
-                
-            } else {
-                System.out.println("Pipe not found for current inputs");
-            }
+            
         }
         catch(Exception e) {
             System.err.println(e);
