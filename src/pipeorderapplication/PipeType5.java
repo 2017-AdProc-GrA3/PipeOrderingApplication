@@ -30,35 +30,35 @@ public class PipeType5 extends BasePipe {
     }
     
     @Override
+    public void printInfo() {
+        System.out.println("PipeType: 5");
+        System.out.format("Length: %1$s\n", length);
+        System.out.format("Radius: %1$s\n", radius);
+        System.out.format("Plastic Grade: %1$s\n", plasticGrade);
+        System.out.format("Color Print: %1$s\n", colorPrint);
+        System.out.format("Inner Insulation: %1$s\n", innerInsulation);
+        System.out.format("Outer Reinforcement: %1$s\n", outerReinforcement);
+        System.out.format("Chemical Resistance: %1$s\n", chemicalResistance);
+        System.out.format("Price (£): %1$s\n", calculatePrice());
+    }
+    
+    @Override
     public boolean isCreatable(int desiredPlasticGrade, int desiredColorPrint, boolean desiredInnerInsulation, boolean desiredOuterReinforcement) {
-        boolean plasticGradeMatch = Arrays.stream(this.acceptedGrades).anyMatch(i -> i == desiredPlasticGrade);
-        boolean colorPrintMatch = desiredColorPrint == this.acceptedColorPrint;
-        boolean innerInsulationMatch = desiredInnerInsulation == this.acceptedInnerInsulation;
-        boolean outerReinforcementMatch = desiredOuterReinforcement == this.acceptedOuterReinforcement;
+        boolean plasticGradeMatch = Arrays.stream(acceptedGrades).anyMatch(i -> i == desiredPlasticGrade);
+        boolean colorPrintMatch = desiredColorPrint == acceptedColorPrint;
+        boolean innerInsulationMatch = desiredInnerInsulation == acceptedInnerInsulation;
+        boolean outerReinforcementMatch = desiredOuterReinforcement == acceptedOuterReinforcement;
         return plasticGradeMatch && colorPrintMatch && innerInsulationMatch && outerReinforcementMatch;
     }
     
     @Override
     protected double calculatePrice() {
         double priceMultiplier = 1;
-        priceMultiplier += (this.chemicalResistance) ? 0.14 : 0;
+        priceMultiplier += chemicalResistance ? 0.14 : 0;
         priceMultiplier += 0.16;  // add additional color cost (2 colors -> 16%)
         priceMultiplier += 0.13;  // add additional inner insulation cost (13%)
         priceMultiplier += 0.17;  // add additional outer reinforcement cost (17%)
         return super.calculatePrice() * priceMultiplier;
-    }
-    
-    @Override
-    public void printInfo() {
-        System.out.println("PipeType: 5");
-        System.out.format("Length: %1$s\n", this.length);
-        System.out.format("Radius: %1$s\n", this.radius);
-        System.out.format("Plastic Grade: %1$s\n", this.plasticGrade);
-        System.out.format("Color Print: %1$s\n", this.colorPrint);
-        System.out.format("Inner Insulation: %1$s\n", this.innerInsulation);
-        System.out.format("Outer Reinforcement: %1$s\n", this.outerReinforcement);
-        System.out.format("Chemical Resistance: %1$s\n", this.chemicalResistance);
-        System.out.format("Price (£): %1$s\n", calculatePrice());
     }
 
 }

@@ -34,13 +34,17 @@ public abstract class BasePipe {
         this.chemicalResistance = chemicalResistance;
     }
     
-    public int getPlasticGrade() {return this.plasticGrade;}
-    public int getColorPrint() {return this.colorPrint;}
-    public boolean getInnerInsulation() {return this.innerInsulation;}
-    public boolean getOuterReinforcement() {return this.outerReinforcement;}
-    public boolean getChemicalResistance() {return this.chemicalResistance;}
-    public double getLength() {return this.length;}
-    public double getRadius() {return this.radius;}
+    public int getPlasticGrade() {return plasticGrade;}
+    public int getColorPrint() {return colorPrint;}
+    public boolean getInnerInsulation() {return innerInsulation;}
+    public boolean getOuterReinforcement() {return outerReinforcement;}
+    public boolean getChemicalResistance() {return chemicalResistance;}
+    public double getLength() {return length;}
+    public double getRadius() {return radius;}
+    
+    public Object[] getInfo() {
+        return new Object[] {length, radius, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance};
+    }
     
     abstract void printInfo();
     
@@ -49,13 +53,13 @@ public abstract class BasePipe {
     };
     
     protected double calculatePrice() {
-        double pipeVolume = metersToInches(this.length) * calculateCrossSectionalArea();
-        double pricePerInchCubed = new double[]{0.4, 0.6, 0.75, 0.8, 0.95}[this.plasticGrade - 1];
-        return pipeVolume * pricePerInchCubed;
+        double pipeVolume = metersToInches(length) * calculateCrossSectionalArea();
+        double[] pricesPerInch = new double[]{0.4, 0.6, 0.75, 0.8, 0.95};
+        return pipeVolume * pricesPerInch[plasticGrade - 1];
     }
     
     private double calculateCrossSectionalArea() {
-        double outerRadius = this.radius;
+        double outerRadius = radius;
         double innerRadius = outerRadius / 100 * 90;
         return Math.PI * (Math.pow(outerRadius, 2) - Math.pow(innerRadius, 2));
     }
