@@ -19,11 +19,12 @@ public class PipeType4 extends BasePipe {
         this.outerReinforcement = false;
     }
     
-    public PipeType4(int pg, double len, double rad) {
+    public PipeType4(int plasticGrade, boolean chemicalResistance, double length, double radius) {
         this();
-        this.plasticGrade = pg;
-        this.length = len;
-        this.radius = rad;
+        this.plasticGrade = plasticGrade;
+        this.chemicalResistance = chemicalResistance;
+        this.length = length;
+        this.radius = radius;
     }
     
     @Override

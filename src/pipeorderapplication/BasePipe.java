@@ -5,6 +5,7 @@
  */
 package pipeorderapplication;
 
+import java.util.*;
 import java.lang.reflect.Constructor;
 
 /**
@@ -17,11 +18,11 @@ public abstract class BasePipe {
     protected boolean innerInsulation, outerReinforcement, chemicalResistance;
     protected double length, radius;
     
-    public static <T extends BasePipe> T canCreate(Class<T> pipe, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, double leng, double radi) {
+    public static <T extends BasePipe> T canCreate(Class<T> pipe, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance, double length, double radius) {
         T instance = null;
         try {
-            Constructor<T> con = pipe.getConstructor(int.class, double.class, double.class);
-            instance = con.newInstance(plasticGrade, leng, radi);
+            Constructor<T> con = pipe.getConstructor(int.class, boolean.class, double.class, double.class);
+            instance = con.newInstance(plasticGrade, chemicalResistance, length, radius);
             
             if (!instance.isCreatable(plasticGrade, colorPrint, innerInsulation, outerReinforcement))
                 instance = null;
@@ -38,6 +39,18 @@ public abstract class BasePipe {
         boolean innerInsulationMatch = this.innerInsulation == innerInsulation;
         boolean outerReinforcementMatch = this.outerReinforcement == outerReinforcement;
         return plasticGradeMatch && colorPrintMatch && innerInsulationMatch && outerReinforcementMatch;
+    }
+    
+    public ArrayList<Object> getDetails() {
+        ArrayList<Object> details = new ArrayList<>();
+        details.add(this.length);
+        details.add(this.radius);
+        details.add(this.plasticGrade);
+        details.add(this.colorPrint);
+        details.add(this.innerInsulation);
+        details.add(this.outerReinforcement);
+        details.add(this.chemicalResistance);
+        return details;
     }
     
     public void printInfo() {
