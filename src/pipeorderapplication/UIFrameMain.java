@@ -5,13 +5,15 @@
  */
 package pipeorderapplication;
 
-import java.util.ArrayList;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
  * @author up789464
  */
 public class UIFrameMain extends javax.swing.JFrame {
+    
+    private PipeOrderManager pipeOrderManager = new PipeOrderManager();
     
     /**
      * Creates new form UIFrameMain
@@ -45,7 +47,7 @@ public class UIFrameMain extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         cmbColor = new javax.swing.JComboBox<>();
         rdbInnerInsulation = new javax.swing.JRadioButton();
-        rdbOuterResistance = new javax.swing.JRadioButton();
+        rdbOuterReinforcement = new javax.swing.JRadioButton();
         rdbChemicalResistance = new javax.swing.JRadioButton();
         jLabel7 = new javax.swing.JLabel();
         txtQuantity = new javax.swing.JTextField();
@@ -110,8 +112,8 @@ public class UIFrameMain extends javax.swing.JFrame {
         rdbInnerInsulation.setText("Inner Insulation");
         rdbInnerInsulation.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        rdbOuterResistance.setText("Outer Resistance");
-        rdbOuterResistance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        rdbOuterReinforcement.setText("Outer Reinforcement");
+        rdbOuterReinforcement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         rdbChemicalResistance.setText("Chemical Resistance");
         rdbChemicalResistance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -128,7 +130,7 @@ public class UIFrameMain extends javax.swing.JFrame {
             }
         });
 
-        btnRemoveFromOrder.setText("Remove Pipe from Order");
+        btnRemoveFromOrder.setText("Remove Row from Order");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -138,7 +140,7 @@ public class UIFrameMain extends javax.swing.JFrame {
                 .addGap(0, 50, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(rdbChemicalResistance, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(rdbOuterResistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rdbOuterReinforcement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rdbInnerInsulation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(41, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -183,7 +185,7 @@ public class UIFrameMain extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(rdbInnerInsulation)
                 .addGap(20, 20, 20)
-                .addComponent(rdbOuterResistance)
+                .addComponent(rdbOuterReinforcement)
                 .addGap(20, 20, 20)
                 .addComponent(rdbChemicalResistance)
                 .addGap(50, 50, 50)
@@ -196,29 +198,7 @@ public class UIFrameMain extends javax.swing.JFrame {
                 .addComponent(btnRemoveFromOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        tblOrderList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Quantity", "Length", "Diameter", "Plastic Grade", "Colours", "Insulation", "Resistance", "Chemical Resistance", "Total Price"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        tblOrderList.setModel(new TableModelOrders(pipeOrderManager));
         tblOrderList.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblOrderList);
         if (tblOrderList.getColumnModel().getColumnCount() > 0) {
@@ -336,7 +316,30 @@ public class UIFrameMain extends javax.swing.JFrame {
 
     private void btnAddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToOrderActionPerformed
         try {
+            Class[] pipes = {PipeType1.class, PipeType2.class, PipeType3.class, PipeType4.class, PipeType5.class};
+            double length = Double.parseDouble(txtLength.getText());
+            double radius = Double.parseDouble(txtDiameter.getText()) / 2;
+            int plasticGrade = Integer.parseInt((String) cmbPlasticGrade.getSelectedItem());
+            int colorPrint = Integer.parseInt((String) cmbColor.getSelectedItem());
+            boolean innerInsulation = rdbInnerInsulation.isSelected();
+            boolean outerReinforcement = rdbOuterReinforcement.isSelected();
+            boolean chemicalResistance = rdbChemicalResistance.isSelected();
+            int quantity = Integer.parseInt(txtQuantity.getText());
             
+            BasePipe pipe = null;
+            for (Class type : pipes) {
+                pipe = BasePipe.canCreate(type, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance, length, radius);
+                if (pipe != null)
+                    break;
+            }
+            if (pipe != null) {
+                PipeOrder pipeOrder = new PipeOrder(quantity, pipe);
+                this.pipeOrderManager.addOrder(pipeOrder);
+                TableModelOrders tabelModel = (TableModelOrders) tblOrderList.getModel();
+                tabelModel.fireTableDataChanged();
+            }
+            else
+                showMessageDialog(null, "Cannot create a pipe for these values");
         }
         catch(Exception e) {
             System.err.println(e);
@@ -377,24 +380,6 @@ public class UIFrameMain extends javax.swing.JFrame {
             }
         });
     }
-    
-    public ArrayList<Object> getInputs() {
-        ArrayList<Object> inputs = new ArrayList<>();
-        try {
-            inputs.add(Double.parseDouble(txtLength.getText()));
-            inputs.add(Double.parseDouble(txtDiameter.getText()) / 2);
-            inputs.add(Integer.parseInt((String) cmbPlasticGrade.getSelectedItem()));
-            inputs.add(Integer.parseInt((String) cmbColor.getSelectedItem()));
-            inputs.add(rdbInnerInsulation.isSelected());
-            inputs.add(rdbOuterResistance.isSelected());
-            inputs.add(rdbChemicalResistance.isSelected());
-            inputs.add(Integer.parseInt(txtQuantity.getText()));
-        }
-        catch(NumberFormatException e) {
-            System.err.println(e);
-        }
-        return inputs;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddToOrder;
@@ -420,7 +405,7 @@ public class UIFrameMain extends javax.swing.JFrame {
     private javax.swing.JLabel lblTotalCost;
     private javax.swing.JRadioButton rdbChemicalResistance;
     private javax.swing.JRadioButton rdbInnerInsulation;
-    private javax.swing.JRadioButton rdbOuterResistance;
+    private javax.swing.JRadioButton rdbOuterReinforcement;
     private javax.swing.JTable tblOrderList;
     private javax.swing.JTextField txtDiameter;
     private javax.swing.JTextField txtLength;

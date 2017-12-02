@@ -154,7 +154,7 @@
                           <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="rdbChemicalResistance" alignment="0" pref="150" max="32767" attributes="0"/>
-                              <Component id="rdbOuterResistance" alignment="0" max="32767" attributes="0"/>
+                              <Component id="rdbOuterReinforcement" alignment="0" max="32767" attributes="0"/>
                               <Component id="rdbInnerInsulation" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace pref="41" max="32767" attributes="0"/>
@@ -212,7 +212,7 @@
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="rdbInnerInsulation" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="rdbOuterResistance" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdbOuterReinforcement" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="rdbChemicalResistance" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
@@ -309,9 +309,9 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="rdbOuterResistance">
+                <Component class="javax.swing.JRadioButton" name="rdbOuterReinforcement">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Outer Resistance"/>
+                    <Property name="text" type="java.lang.String" value="Outer Reinforcement"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
@@ -348,7 +348,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnRemoveFromOrder">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Remove Pipe from Order"/>
+                    <Property name="text" type="java.lang.String" value="Remove Row from Order"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -395,18 +395,8 @@
                   <SubComponents>
                     <Component class="javax.swing.JTable" name="tblOrderList">
                       <Properties>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="9" rowCount="0">
-                            <Column editable="false" title="Quantity" type="java.lang.Integer"/>
-                            <Column editable="false" title="Length" type="java.lang.Double"/>
-                            <Column editable="false" title="Diameter" type="java.lang.Double"/>
-                            <Column editable="false" title="Plastic Grade" type="java.lang.Integer"/>
-                            <Column editable="false" title="Colours" type="java.lang.Integer"/>
-                            <Column editable="false" title="Insulation" type="java.lang.Boolean"/>
-                            <Column editable="false" title="Resistance" type="java.lang.Boolean"/>
-                            <Column editable="false" title="Chemical Resistance" type="java.lang.Boolean"/>
-                            <Column editable="false" title="Total Price" type="java.lang.String"/>
-                          </Table>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                          <Connection code="new TableModelOrders(pipeOrderManager)" type="code"/>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
