@@ -335,6 +335,7 @@ public class UIFrameMain extends javax.swing.JFrame {
             if (pipe != null) {
                 PipeOrder pipeOrder = new PipeOrder(quantity, pipe);
                 this.pipeOrderManager.addOrder(pipeOrder);
+                // Update table rows
                 TableModelOrders tabelModel = (TableModelOrders) tblOrderList.getModel();
                 tabelModel.fireTableDataChanged();
             }

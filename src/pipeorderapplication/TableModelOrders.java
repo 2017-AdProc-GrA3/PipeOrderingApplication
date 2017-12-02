@@ -19,7 +19,7 @@ public class TableModelOrders extends AbstractTableModel {
     public TableModelOrders(PipeOrderManager pipeOrderManager) {
         super();
         this.pipeOrderManager = pipeOrderManager;
-        columns = new String[]{"Quantity", "Length", "Diameter", "Plastic Grade", "Colours", "Insulation", "Reinforcement", "Chemical Resistance", "Total Price"};
+        this.columns = new String[]{"Quantity", "Length", "Diameter", "Plastic Grade", "Colours", "Insulation", "Reinforcement", "Chemical Resistance", "Total Price"};
     }
     
     @Override
@@ -30,6 +30,11 @@ public class TableModelOrders extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return pipeOrderManager.getOrders().size();
+    }
+    
+    @Override
+    public String getColumnName(int index) {
+        return columns[index];
     }
     
     public PipeOrder getOrderAtRow(int row) {
