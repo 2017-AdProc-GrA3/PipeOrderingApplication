@@ -6,6 +6,7 @@
 package pipeorderapplication;
 
 import javax.swing.table.AbstractTableModel;
+import java.text.*;
 
 /**
  *
@@ -45,16 +46,17 @@ public class TableModelOrders extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         PipeOrder order = this.pipeOrderManager.getOrders().get(row);
         BasePipe pipe = order.getPipe();
-        if (column == 0)
-            return order.getQuantity();
-        else if (column == 2)
-            return ((double) pipe.getDetails().get(1)) * 2;
-        else if (column < 8)
-            return pipe.getDetails().get(column - 1);
-        else if (column == 8)
-            return order.getQuantity() * pipe.calculatePrice();
-        else
-            return null;
+        switch (column) {
+            case 0:
+                return order.getQuantity();
+            case 2:
+                return (double) pipe.getDetails().get(1) * 2;
+            case 8:
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                return formatter.format(order.getQuantity() * pipe.calculatePrice());
+            default:
+                return pipe.getDetails().get(column - 1);
+        }
     }
     
 }

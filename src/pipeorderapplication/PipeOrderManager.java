@@ -15,10 +15,7 @@ public class PipeOrderManager {
     
     private ArrayList<PipeOrder> pipeOrders = new ArrayList<>();
     
-    public PipeOrderManager() {
-        this.pipeOrders.add(new PipeOrder(1, new PipeType1(1, true, 5, 5)));
-        this.pipeOrders.add(new PipeOrder(3, new PipeType3(2, true, 1, 2)));
-    }
+    public PipeOrderManager() {}
     
     public ArrayList<PipeOrder> getOrders() {return this.pipeOrders;}
     
