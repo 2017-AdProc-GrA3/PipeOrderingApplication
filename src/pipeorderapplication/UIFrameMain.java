@@ -5,17 +5,20 @@
  */
 package pipeorderapplication;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.*;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.event.*;
-import javax.swing.*;
-import java.text.*;
-import javax.swing.JOptionPane;
-import javax.imageio.ImageIO;
-import java.io.File;
 
 /**
- *
+ * UIFrameMain.java
+ * Purpose: Displays GUI for application.
+ * 
  * @author up789464
+ * @version 1.0 04/12/17
  */
 public class UIFrameMain extends javax.swing.JFrame {
     
@@ -31,16 +34,16 @@ public class UIFrameMain extends javax.swing.JFrame {
         try {
             this.setIconImage(ImageIO.read(new File("src/resources/icon.png")));
         }
-        catch(Exception e) {
-            System.err.println(e);
+        catch(IOException e) {
+            System.err.println("Error setting application icon");
         }
-        
         
         // setup table event handlers
         tblOrderList.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                
                 lblTotalCost.setText(formatter.format(getSumOfCosts()));
                 btnSubmitOrders.setEnabled(pipeOrderManager.getOrders().size() > 0);
                 btnClearOrder.setEnabled(pipeOrderManager.getOrders().size() > 0);
@@ -389,6 +392,11 @@ public class UIFrameMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Gets the sum of all PipeOrders.
+     * 
+     * @return      The sum of all PipeOrders as a double
+     */
     private double getSumOfCosts() {
         double sumCost = 0;
         for (PipeOrder order : pipeOrderManager.getOrders()) {
@@ -397,6 +405,11 @@ public class UIFrameMain extends javax.swing.JFrame {
         return sumCost;
     }
     
+    /**
+     * Creates a PipeOrder and places it into the PipeOrderManager if the pipe can be created. If not then display an error dialog.
+     * 
+     * @param evt       The event to evaluate
+     */
     private void btnAddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToOrderActionPerformed
         try {
             double length = Double.parseDouble(txtLength.getText());
@@ -407,8 +420,8 @@ public class UIFrameMain extends javax.swing.JFrame {
             boolean outerReinforcement = rdbOuterReinforcement.isSelected();
             boolean chemicalResistance = rdbChemicalResistance.isSelected();
             int quantity = Integer.parseInt(txtQuantity.getText());
-            
             BasePipe pipe = null;
+            
             for (Class type : pipeClasses) {
                 pipe = BasePipe.canCreate(type, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance, length, radius);
                 if (pipe != null)
@@ -417,36 +430,52 @@ public class UIFrameMain extends javax.swing.JFrame {
             if (pipe != null) {
                 PipeOrder pipeOrder = new PipeOrder(quantity, pipe);
                 pipeOrderManager.addOrder(pipeOrder);
-                // Update table rows
                 TableModelOrders tabelModel = (TableModelOrders) tblOrderList.getModel();
                 tabelModel.fireTableDataChanged();
-            }
-            else
+            } else {
                 showMessageDialog(null, "Cannot create a pipe for these values");
+            }
+        }
+        catch(NumberFormatException e) {
+            showMessageDialog(null, "Please check that fields contain numbers");
         }
         catch(Exception e) {
             System.err.println(e);
         }
     }//GEN-LAST:event_btnAddToOrderActionPerformed
 
+    /**
+     * Clears all of the current orders from the table and PipeOrderManager.
+     * 
+     * @param evt       The event to evaluate
+     */
     private void btnClearOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearOrderActionPerformed
         this.pipeOrderManager.removeAllOrders();
-        // Update table rows
         TableModelOrders tableModel = (TableModelOrders) tblOrderList.getModel();
         tableModel.fireTableDataChanged();
     }//GEN-LAST:event_btnClearOrderActionPerformed
 
+    /**
+     * Removes the current selected row from the table and PipeOrderManager. If no row is selected then display an error dialog.
+     * 
+     * @param evt       The event to evaluate
+     */
     private void btnRemoveFromOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveFromOrderActionPerformed
         int rowIndex = tblOrderList.getSelectedRow();
         if (rowIndex != -1) {
             TableModelOrders tableModel = (TableModelOrders) tblOrderList.getModel();
             pipeOrderManager.removeOrder(tableModel.getOrderAtRow(rowIndex));
             tableModel.fireTableDataChanged();
-        }
-        else
+        } else {
             showMessageDialog(null, "Select a row from the table to remove");
+        }
     }//GEN-LAST:event_btnRemoveFromOrderActionPerformed
 
+    /**
+     * Clears the Orders and informs the user that the order has been submitted.
+     * 
+     * @param evt       The event to evaluate
+     */
     private void btnSubmitOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitOrdersActionPerformed
         int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to submit this order?", "Submit Order", JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.OK_OPTION) {
@@ -486,6 +515,7 @@ public class UIFrameMain extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new UIFrameMain().setVisible(true);
             }

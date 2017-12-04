@@ -6,19 +6,34 @@
 package pipeorderapplication;
 
 /**
- *
+ * PipeType4.java
+ * Purpose: Fourth Pipe Type.
+ * 
  * @author up789464
+ * @version 2.0 04/12/17
  */
 public class PipeType4 extends BasePipe {
     
+    /**
+     * Constructor for class. Sets values for the pipe type.
+     */
     public PipeType4() {
+        super();
         this.gradeLowerBound = 2;
         this.gradeUpperBound = 5;
         this.colorPrint = 2;
         this.innerInsulation = true;
         this.outerReinforcement = false;
     }
-    
+
+    /**
+     * Constructor for class. Sets values for pipe.
+     * 
+     * @param plasticGrade          The grade of plastic for the pipe as an integer
+     * @param chemicalResistance    Whether the pipe should have chemical resistance
+     * @param length                The length of the pipe as a double
+     * @param radius                The radius of the pipe as a double
+     */
     public PipeType4(int plasticGrade, boolean chemicalResistance, double length, double radius) {
         this();
         this.plasticGrade = plasticGrade;
@@ -26,7 +41,12 @@ public class PipeType4 extends BasePipe {
         this.length = length;
         this.radius = radius;
     }
-    
+
+    /**
+     * Calculates the price of the pipe.
+     * 
+     * @return      The price of the pipe as a double
+     */
     @Override
     protected double calculatePrice() {
         double priceMultiplier = 1;
