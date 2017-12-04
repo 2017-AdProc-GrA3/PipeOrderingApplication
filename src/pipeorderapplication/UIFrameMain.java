@@ -7,8 +7,11 @@ package pipeorderapplication;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.event.*;
+import javax.swing.*;
 import java.text.*;
 import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
+import java.io.File;
 
 /**
  *
@@ -17,6 +20,7 @@ import javax.swing.JOptionPane;
 public class UIFrameMain extends javax.swing.JFrame {
     
     private PipeOrderManager pipeOrderManager = new PipeOrderManager();
+    private final Class[] pipeClasses = {PipeType1.class, PipeType2.class, PipeType3.class, PipeType4.class, PipeType5.class};
     
     /**
      * Creates new form UIFrameMain
@@ -24,6 +28,13 @@ public class UIFrameMain extends javax.swing.JFrame {
     public UIFrameMain() {
         initComponents();
         this.setLocationRelativeTo(null);
+        try {
+            this.setIconImage(ImageIO.read(new File("src/resources/icon.png")));
+        }
+        catch(Exception e) {
+            System.err.println(e);
+        }
+        
         
         // setup table event handlers
         tblOrderList.getModel().addTableModelListener(new TableModelListener() {
@@ -41,6 +52,12 @@ public class UIFrameMain extends javax.swing.JFrame {
                 btnRemoveFromOrder.setEnabled(tblOrderList.getSelectedRow() != -1);
             }
         });
+        
+        // setup input verifiers for text inputs
+        InputVerifier positiveDoubleVerifier = new InputVerifierPositiveDouble(btnAddToOrder);
+        txtLength.setInputVerifier(positiveDoubleVerifier);
+        txtDiameter.setInputVerifier(positiveDoubleVerifier);
+        txtQuantity.setInputVerifier(new InputVerifierPositiveInt(btnAddToOrder));
     }
 
     /**
@@ -145,6 +162,7 @@ public class UIFrameMain extends javax.swing.JFrame {
         txtQuantity.setText("1");
 
         btnAddToOrder.setText("Add Pipe(s) to Orders");
+        btnAddToOrder.setEnabled(false);
         btnAddToOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddToOrderActionPerformed(evt);
@@ -158,33 +176,30 @@ public class UIFrameMain extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnAddToOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAddToOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cmbColor, 0, 106, Short.MAX_VALUE)
-                            .addComponent(cmbPlasticGrade, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtQuantity)
-                            .addComponent(txtLength)
-                            .addComponent(txtDiameter)))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cmbColor, 0, 106, Short.MAX_VALUE)
+                    .addComponent(cmbPlasticGrade, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtQuantity)
+                    .addComponent(txtLength)
+                    .addComponent(txtDiameter)))
+            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(rdbChemicalResistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdbInnerInsulation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(rdbOuterReinforcement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rdbInnerInsulation, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rdbChemicalResistance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +399,6 @@ public class UIFrameMain extends javax.swing.JFrame {
     
     private void btnAddToOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToOrderActionPerformed
         try {
-            Class[] pipes = {PipeType1.class, PipeType2.class, PipeType3.class, PipeType4.class, PipeType5.class};
             double length = Double.parseDouble(txtLength.getText());
             double radius = Double.parseDouble(txtDiameter.getText()) / 2;
             int plasticGrade = Integer.parseInt((String) cmbPlasticGrade.getSelectedItem());
@@ -395,7 +409,7 @@ public class UIFrameMain extends javax.swing.JFrame {
             int quantity = Integer.parseInt(txtQuantity.getText());
             
             BasePipe pipe = null;
-            for (Class type : pipes) {
+            for (Class type : pipeClasses) {
                 pipe = BasePipe.canCreate(type, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance, length, radius);
                 if (pipe != null)
                     break;

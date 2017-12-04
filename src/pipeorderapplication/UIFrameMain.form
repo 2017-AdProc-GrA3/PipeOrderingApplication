@@ -150,40 +150,35 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="btnAddToOrder" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnAddToOrder" max="32767" attributes="0"/>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jLabel4" alignment="0" pref="96" max="32767" attributes="0"/>
-                                          <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel7" min="-2" pref="92" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" min="-2" pref="107" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="cmbColor" alignment="1" pref="106" max="32767" attributes="0"/>
-                                      <Component id="cmbPlasticGrade" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="txtQuantity" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="txtLength" max="32767" attributes="0"/>
-                                      <Component id="txtDiameter" alignment="1" max="32767" attributes="0"/>
-                                  </Group>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel4" alignment="0" pref="96" max="32767" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jLabel7" min="-2" pref="92" max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="cmbColor" alignment="1" pref="106" max="32767" attributes="0"/>
+                              <Component id="cmbPlasticGrade" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtQuantity" alignment="1" max="32767" attributes="0"/>
+                              <Component id="txtLength" max="32767" attributes="0"/>
+                              <Component id="txtDiameter" alignment="1" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
+                      <Component id="jLabel9" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="rdbInnerInsulation" max="32767" attributes="0"/>
+                              <Component id="rdbOuterReinforcement" max="32767" attributes="0"/>
                               <Component id="rdbChemicalResistance" alignment="0" max="32767" attributes="0"/>
-                              <Component id="rdbOuterReinforcement" alignment="0" max="32767" attributes="0"/>
-                              <Component id="rdbInnerInsulation" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -356,6 +351,7 @@
                 <Component class="javax.swing.JButton" name="btnAddToOrder">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Add Pipe(s) to Orders"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <AccessibilityProperties>
                     <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Add Pipe(s) to Order"/>

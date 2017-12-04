@@ -51,6 +51,10 @@ public class TableModelOrders extends AbstractTableModel {
                 return order.getQuantity();
             case 2:
                 return (double) pipe.getDetails().get(1) * 2;
+            case 5:
+            case 6:
+            case 7:
+                return (boolean) (pipe.getDetails().get(column - 1)) ? "Yes" : "No";
             case 8:
                 NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 return formatter.format(order.getQuantity() * pipe.calculatePrice());

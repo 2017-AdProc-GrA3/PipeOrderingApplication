@@ -18,19 +18,19 @@ public abstract class BasePipe {
     protected boolean innerInsulation, outerReinforcement, chemicalResistance;
     protected double length, radius;
     
-    public static <T extends BasePipe> T canCreate(Class<T> pipe, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance, double length, double radius) {
-        T instance = null;
+    public static <T extends BasePipe> T canCreate(Class<T> pipeType, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance, double length, double radius) {
+        T pipe = null;
         try {
-            Constructor<T> con = pipe.getConstructor(int.class, boolean.class, double.class, double.class);
-            instance = con.newInstance(plasticGrade, chemicalResistance, length, radius);
+            Constructor<T> con = pipeType.getConstructor(int.class, boolean.class, double.class, double.class);
+            pipe = con.newInstance(plasticGrade, chemicalResistance, length, radius);
             
-            if (!instance.isCreatable(plasticGrade, colorPrint, innerInsulation, outerReinforcement))
-                instance = null;
+            if (!pipe.isCreatable(plasticGrade, colorPrint, innerInsulation, outerReinforcement))
+                pipe = null;
         }
         catch (Exception e) {
             return null;
         }
-        return instance;
+        return pipe;
     }
     
     public boolean isCreatable(int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement) {
