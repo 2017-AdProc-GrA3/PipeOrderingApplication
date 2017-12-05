@@ -29,6 +29,7 @@ public abstract class BasePipe {
     /**
      * Create a pipe of class given, returns null if pipe cannot be created.
      * 
+     * @param <T>                   The subclass of BasePipe to create
      * @param pipeType              The class type of pipe to attempt to create
      * @param plasticGrade          The plastic grade for the pipe as an integer
      * @param colorPrint            The colour print for the pipe as an integer
@@ -39,8 +40,8 @@ public abstract class BasePipe {
      * @param radius                The radius of the pipe as a double
      * @return                      A pipe object of the given class or null if the pipe cannot be created
      */
-    public static <T extends BasePipe> T canCreate(Class<T> pipeType, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance, double length, double radius) {
-        T pipe = null;
+    public static <T extends BasePipe> T createPipe(Class<T> pipeType, int plasticGrade, int colorPrint, boolean innerInsulation, boolean outerReinforcement, boolean chemicalResistance, double length, double radius) {
+        T pipe;
         try {
             Constructor<T> con = pipeType.getConstructor(int.class, boolean.class, double.class, double.class);
             pipe = con.newInstance(plasticGrade, chemicalResistance, length, radius);

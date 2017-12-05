@@ -423,7 +423,7 @@ public class UIFrameMain extends javax.swing.JFrame {
             BasePipe pipe = null;
             
             for (Class type : pipeClasses) {
-                pipe = BasePipe.canCreate(type, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance, length, radius);
+                pipe = BasePipe.createPipe(type, plasticGrade, colorPrint, innerInsulation, outerReinforcement, chemicalResistance, length, radius);
                 if (pipe != null)
                     break;
             }
@@ -433,7 +433,19 @@ public class UIFrameMain extends javax.swing.JFrame {
                 TableModelOrders tabelModel = (TableModelOrders) tblOrderList.getModel();
                 tabelModel.fireTableDataChanged();
             } else {
-                showMessageDialog(null, "Cannot create a pipe for these values");
+                // Display error message
+                if ((plasticGrade == 1 && colorPrint != 0) || (plasticGrade == 5 && colorPrint != 2) || (plasticGrade > 3 && colorPrint == 0))
+                    showMessageDialog(null, String.format("Plastic Grade %1$s cannot have Colour %2$s", plasticGrade, colorPrint));
+                else if ((colorPrint == 0 || colorPrint == 1) && (innerInsulation || outerReinforcement))
+                    showMessageDialog(null, String.format("Colour %1$s cannot have inner insulation or outer reinforcement", colorPrint));
+                else if (plasticGrade == 2 && outerReinforcement)
+                    showMessageDialog(null, "Plastic Grade 2 cannot have outer reinforcement");
+                else if (plasticGrade == 2 && (innerInsulation && outerReinforcement))
+                    showMessageDialog(null, String.format("Plastic Grade %1$s cannot have both inner insulation and outer reinforcement together", plasticGrade));
+                else if (!innerInsulation && outerReinforcement)
+                    showMessageDialog(null, "Cannot have outer reinforcement without inner insulation");
+                else
+                    showMessageDialog(null, "Cannot create a pipe for these values");
             }
         }
         catch(NumberFormatException e) {
