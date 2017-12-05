@@ -7,6 +7,7 @@ package pipeorderapplication;
 
 import java.awt.Color;
 import javax.swing.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * InputVerifierPositiveDouble.java
@@ -42,9 +43,10 @@ public class InputVerifierPositiveDouble extends InputVerifier {
         
         try {
             Double.parseDouble(text);
-            if (Double.parseDouble(text) <= 0) {
+            if (Double.parseDouble(text) < 0.2 || Double.parseDouble(text) > 100) {
                 component.setBackground(new Color(255, 90, 90));
                 button.setEnabled(false);
+                showMessageDialog(null, "Value must be between 0.2 and 100");
                 return false;
             } else {
                 component.setBackground(new Color(255, 255, 255));
