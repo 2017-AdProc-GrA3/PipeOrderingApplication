@@ -6,6 +6,7 @@
 package pipeorderapplication;
 
 import java.util.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * PipeOrderManager.java
@@ -34,16 +35,21 @@ public class PipeOrderManager {
         boolean orderExists = false;
         List<Object> newPipeDetails = newOrder.getPipe().getDetails();
         
-        for (PipeOrder order : this.pipeOrders) {
-            List<Object> pipeDetails = order.getPipe().getDetails();
-            if (newPipeDetails.equals(pipeDetails)) {
-                order.setQuantity(order.getQuantity() + newOrder.getQuantity());
-                orderExists = true;
-                break;
+        if (getPipeCount() + newOrder.getQuantity() <= 1000) {
+            for (PipeOrder order : this.pipeOrders) {
+                List<Object> pipeDetails = order.getPipe().getDetails();
+                if (newPipeDetails.equals(pipeDetails)) {
+                    order.setQuantity(order.getQuantity() + newOrder.getQuantity());
+                    orderExists = true;
+                    break;
+                }
             }
+            if (!orderExists)
+                this.pipeOrders.add(newOrder);
+        } else {
+            showMessageDialog(null, "Maximum number of pipes per order is 1000");
         }
-        if (!orderExists)
-            this.pipeOrders.add(newOrder);
+        
     }
 
     /**
@@ -69,6 +75,19 @@ public class PipeOrderManager {
      */
     public void removeAllOrders() {
         this.pipeOrders.clear();
+    }
+    
+    /**
+     * Gets sum of order quantities.
+     * 
+     * @return          The sum of all order quantities
+     */
+    public int getPipeCount() {
+        int sum = 0;
+        for (PipeOrder order : pipeOrders) {
+            sum += order.getQuantity();
+        }
+        return sum;
     }
     
 }

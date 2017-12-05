@@ -30,8 +30,10 @@ public class UIFrameMain extends javax.swing.JFrame {
      */
     public UIFrameMain() {
         initComponents();
+        // position window in center
         this.setLocationRelativeTo(null);
         try {
+            // set application icon
             this.setIconImage(ImageIO.read(new File("src/resources/icon.png")));
         }
         catch(IOException e) {
@@ -57,10 +59,9 @@ public class UIFrameMain extends javax.swing.JFrame {
         });
         
         // setup input verifiers for text inputs
-        InputVerifier positiveDoubleVerifier = new InputVerifierPositiveDouble(btnAddToOrder);
-        txtLength.setInputVerifier(positiveDoubleVerifier);
-        txtDiameter.setInputVerifier(positiveDoubleVerifier);
-        txtQuantity.setInputVerifier(new InputVerifierPositiveInt(btnAddToOrder));
+        txtLength.setInputVerifier(new InputVerifierLength(btnAddToOrder));
+        txtDiameter.setInputVerifier(new InputVerifierDiameter(btnAddToOrder));
+        txtQuantity.setInputVerifier(new InputVerifierQuantity(btnAddToOrder));
     }
 
     /**
